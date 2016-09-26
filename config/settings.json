@@ -1,0 +1,19 @@
+{
+  "SiteName": "IBlog",
+  "SiteDomain": "www.leo23.com",
+  "RecordNo": "浙ICP备XXX号",
+  "LogoPath": "/images/leo.jpg",
+  "PageSize": "10",
+  "ExpandMenu": "false",
+  "CacheExpired": "300",
+  "TranslateKey": "",
+  "EnableStatistics": "true",
+  "StatisticsId": "",
+  "EnableShare": "true",
+  "JiaThisId": "",
+  "ShowComments": "true",
+  "ChangyanId": "",
+  "ChangyanConf": "",
+  "ShowGuestbook": "true",
+  "YouyanId": ""
+}
