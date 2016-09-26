@@ -1,0 +1,36 @@
+{
+  "name": "iBlog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.1",
+    "body-parser": "^1.15.2",
+    "bower": "^1.7.9",
+    "connect-ensure-login": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "debug": "^2.2.0",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "i18n": "^0.8.3",
+    "jade": "^1.11.0",
+    "jquery-file-upload-middleware": "^0.1.8",
+    "moment": "^2.15.1",
+    "mongoose": "^4.6.1",
+    "mongoose-schema-extend": "^0.2.2",
+    "morgan": "^1.7.0",
+    "multer": "^1.2.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "redis": "^2.6.2",
+    "serve-favicon": "^2.3.0",
+    "shortid": "^2.2.6",
+    "winston": "^2.2.0",
+    "winston-mongodb": "^1.6.1"
+  }
+}
