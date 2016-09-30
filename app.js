@@ -13,6 +13,7 @@ var passport = require('passport');
 
 var route = require('./routes/index');
 var auth = require('./routes/auth');
+var locale = require('./routes/locale');
 var logger = require('./utility/logger');
 var i18n = require('./models/i18n');
 
@@ -45,7 +46,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
 
-//app.use('/', route);
+app.use('/', route);
+app.use('/', locale);
 
 app.use('/', auth);
 
