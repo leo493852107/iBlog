@@ -12,6 +12,7 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 
 var route = require('./routes/index');
+var misc = require('./routes/misc');
 var auth = require('./routes/auth');
 var locale = require('./routes/locale');
 var logger = require('./utility/logger');
@@ -48,7 +49,7 @@ app.use(passport.session());
 
 app.use('/', route);
 app.use('/', locale);
-
+app.use('/', misc);
 app.use('/', auth);
 
 // catch 404 and forward to error handler

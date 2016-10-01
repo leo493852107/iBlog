@@ -1,0 +1,10 @@
+{
+  "FirstLine": "FirstLine",
+  "SecondLine": "SecondLine",
+  "PhotoPath": "/images/leo.jpg",
+  "ThirdLine": "第三行文本",
+  "Profile": "个人简介",
+  "Wehchat": "微信号",
+  "QrcodePath": "",
+  "Email": "Email地址"
+}
