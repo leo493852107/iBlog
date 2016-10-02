@@ -342,7 +342,7 @@ router.get('/aboutmanage', function (req, res, next) {
     async.parallel([
         // 获取关于数据
         function (cb) {
-            tool.getConfig(path.join(__dirname, '../config/about.js'), function (err, about) {
+            tool.getConfig(path.join(__dirname, '../config/about.json'), function (err, about) {
                 if (err) {
                     cb(err);
                 } else {
