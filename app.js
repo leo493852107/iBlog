@@ -16,6 +16,7 @@ var misc = require('./routes/misc');
 var auth = require('./routes/auth');
 var admin = require('./routes/admin');
 var locale = require('./routes/locale');
+var ue = require('./routes/ue');
 var logger = require('./utility/logger');
 var i18n = require('./models/i18n');
 
@@ -54,6 +55,7 @@ app.use('/', misc);
 app.use('/', auth);
 
 app.use('/admin', require('connect-ensure-login').ensureLoggedIn('/login'), admin);
+app.use('/ue/controller', ue);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
