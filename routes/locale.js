@@ -7,7 +7,7 @@ var router = express.Router();
 var path = require('path');
 
 // Change website language
-router.get('/local/:lang', function (req, res, next) {
+router.get('/locale/:lang', function (req, res, next) {
     if (req.params.lang) {
         // Set-Cookie for language/locale
         res.cookie('locale', req.params.lang, { maxAge: 90000, httpOnly: true });
