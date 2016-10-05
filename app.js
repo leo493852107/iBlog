@@ -12,6 +12,7 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 
 var route = require('./routes/index');
+var blog = require('./routes/blog');
 var misc = require('./routes/misc');
 var auth = require('./routes/auth');
 var admin = require('./routes/admin');
@@ -53,7 +54,7 @@ app.use('/', route);
 app.use('/', locale);
 app.use('/', misc);
 app.use('/', auth);
-
+app.use('/blog', blog);
 app.use('/admin', require('connect-ensure-login').ensureLoggedIn('/login'), admin);
 app.use('/ue/controller', ue);
 
