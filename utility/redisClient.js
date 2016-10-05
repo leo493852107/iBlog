@@ -50,7 +50,7 @@ exports.getItem = function (key, callback) {
  * @param callback 回调函数
  */
 exports.removeItem = function (key, callback) {
-    clent.del(key, function (err) {
+    client.del(key, function (err) {
         if (err) {
             return callback(err);
         }

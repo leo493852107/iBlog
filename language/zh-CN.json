@@ -138,7 +138,8 @@
 			"save_draft": "保存草稿"
 		},
 		"exception": {
-			"exception_manage": "异常管理"
+			"exception_manage": "异常管理",
+			"exception_manager": "admin.exception.exception_manager"
 		},
 		"guestbook": {
 			"message_manage": "留言管理"
