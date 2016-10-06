@@ -78,23 +78,76 @@ $(function () {
 
     $(document).on({
         click: function () {
-            var cate = $("<li class=\"list-group-item\" data-uniqueid=\"" + "" + "\" data-catename\"" + "" + "\" data-alias=\"" + "" + "\" data-img=\"" + "" + "\" data-link=\"" +"" + "\">"
-            + "<div class=\"row\">"
-            + "<div class=\"col-md-2\">"
-            + "<i class=\"fa fa-arrows\"></i>"
-            + "<span class=\"fileinput-button\">"
-            + "<img src=\"" + "" + "\"/>"
-            + "<input type=\"file\" class=\"fileupload\" name=\"file\" value=\"" + "\" placeholder=\"分类名称\"/>"
-            + "</span>"
-            + "</div>"
-            + "<div class=\"col-md-2\">"
-            + "<input class=\"form-control txtName\" type=\"text\"" + "" + "\" placeholder=\"分类名称\"/>"
-            + "</div>"
-            + "</span>"
-            + "</div>"
-            );
+          var cate = $("<li class=\"list-group-item\" data-uniqueid=\"" + "" + "\" data-catename=\"" + "" + "\" data-alias=\"" + "" + "\" data-img=\"" + "" + "\" data-link=\"" + "" + "\">"
+              + "<div class=\"row\">"
+              + "<div class=\"col-md-2\">"
+              + "<i class=\"fa fa-arrows\"></i> "
+              + "<span class=\"fileinput-button\">"
+              + "<img src=\"" + "" + "\"/>"
+              + "<input type=\"file\" class=\"fileupload\" name=\"file\">"
+              + "</span>"
+              + "</div>"
+              + "<div class=\"col-md-2\">"
+              + "<input class=\"form-control txtName\" type=\"text\" value=\"" + "" + "\" placeholder=\"分类名称\"/>"
+              + "</div>"
+              + "<div class=\"col-md-2\">"
+              + "<input class=\"form-control txtAlias\" type=\"text\" value=\"" + "" + "\" placeholder=\"分类alias\"/>"
+              + "</div>"
+              + "<div class=\"col-md-5\">"
+              + "<div class=\"input-group cate-link\">"
+              + "<span class=\"input-group-addon\"><label>"
+              + "<input type=\"checkbox\"/> 链接"
+              + "</label></span>"
+              + "<input type=\"text\" class=\"form-control txtLink\" value=\"" + "" + "\" disabled=\"disabled\">"
+              + "</div>"
+              + "</div>"
+              + "<div class=\"col-md-1\">"
+              + "<button class=\"btn btn-link btn-del-cate\" title=\"移除分类\"><i class=\"fa fa-times\"></i></button>"
+              + "</div>"
+              + "</div>"
+              + "</li>");
+          cate.appendTo($("#cate-list"));
+          bindFileUpload();
         }
-    })
+    }, "#btnNew");
+
+    $(document).on({
+      click: function () {
+        if (isValidData()) {
+          var $this = $(this);
+          $this.attr("disabled", "disabled");
+          $this.find(".fa").removeClass("fa-cloud-upload").addClass("fa-circle-o-notch fa-spin");
+          var gdata = group.sortable("serialize").get();
+          var json = JSON.stringify(gdata);
+          $.ajax({
+            url: "/admin/saveCategories",
+            type: "Post",
+            data: {json: json},
+            success: function () {
+              swal({
+                title: "保存成功!",
+                type: "success",
+                showConfirmButton: false,
+                timer: 2000
+              });
+            },
+            error: function () {
+              swal({
+                title: "操作失败!",
+                type: "error",
+                showConfirmButton: false,
+                timer: 2000
+              });
+            },
+            complete: function () {
+              $this.removeAttr("disabled");
+              $this.find(".fa").removeClass("fa-circle-o-notch fa-spin").addClass("fa-cloud-upload");
+              getData();
+            }
+          });
+        }
+      }
+    }, "#btnSave");
 });
 
 function getData() {
