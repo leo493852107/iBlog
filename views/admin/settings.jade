@@ -43,9 +43,9 @@ block content
                                                             | #{__("admin.settings.logo")}
                                                         .pull-right
                                                             span.fileinput-button
-                                                            img.img-circle.profile-img(alt='profile', src=settings.LogoPath, style='width:146px;height:146px;')
-                                                            input.fileupload(type='file', name='file')
-                                                            input#LogoPath(type='hidden', name='LogoPath', value=settings.LogoPath)
+                                                                img.img-circle.profile-img(alt='profile', src=settings.LogoPath, style='width:146px;height:146px;')
+                                                                input.fileupload(type='file', name='file')
+                                                                input#LogoPath(type='hidden', name='LogoPath',value=settings.LogoPath)
                                                     li.list-group-item.clearfix
                                                         .pull-left
                                                             | #{__("admin.settings.posts_per_page")}
@@ -69,7 +69,7 @@ block content
                                                         .pull-left
                                                             | #{__("admin.settings.cache_expire_time")}
                                                         .pull-right
-                                                            .spinbox(data-initialize='spinbox', data-max='9999999')
+                                                            .spinbox(data-initialize='spinbox',data-max='9999999')
                                                                 input#CacheExpired.form-control.input-mini.spinbox-input(type='text', name='CacheExpired', placeholder='#{__("admin.settings.cache_expire_time_placeholder")}', value=settings.CacheExpired)
                                                                 .spinbox-buttons.btn-group.btn-group-vertical
                                                                     button.btn.btn-white.spinbox-up.btn-xs(type='button')
@@ -120,7 +120,7 @@ block content
                                                             input#JiaThisId.form-control(type='text', name='JiaThisId', placeholder='#{__("admin.settings.share_id_placeholder")}', value=settings.JiaThisId)
                                                     li.list-group-item.clearfix
                                                         .pull-left
-                                                            | #{__("admin.settings.comments")}(
+                                                            | #{__("admin.settings.comments")} (
                                                             a(href='http://changyan.kuaizhan.com', target='_blank') #{__("admin.settings.comments_service")}
                                                             | )
                                                         .pull-right
@@ -138,7 +138,7 @@ block content
                                                             input#ChangyanConf.form-control(type='text', name='ChangyanConf', placeholder='#{__("admin.settings.comments_conf_placeholder")}', value=settings.ChangyanConf)
                                                     li.list-group-item.clearfix
                                                         .pull-left
-                                                            | #{__("admin.settings.message")}(
+                                                            | #{__("admin.settings.message")} (
                                                             a(href='http://www.uyan.cc/', target='_blank') #{__("admin.settings.message_service")}
                                                             | )
                                                         .pull-right
@@ -149,12 +149,12 @@ block content
                                                             | #{__("admin.settings.message_id")}
                                                         .pull-right
                                                             input#YouyanId.form-control(type='text', name='YouyanId', placeholder='#{__("admin.settings.message_id_placeholder")}', value=settings.YouyanId)
+
                                 .row
                                     .col-lg-12
                                         button#btnSave(type='button', class='btn btn-primary', role='button')
                                             i.fa.fa-cloud-upload
-                                            |   #{__("admin.settings.save")}
-
+                                            |  #{__("admin.settings.save")}
     script(type='text/javascript', src='/libs/jquery/dist/jquery.min.js', charset='utf-8')
     script(type='text/javascript', src='/libs/bootstrap/dist/js/bootstrap.min.js', charset='utf-8')
     script(type='text/javascript', src='/libs/metisMenu/dist/metisMenu.min.js', charset='utf-8')
@@ -165,4 +165,3 @@ block content
     script(type='text/javascript', src='/libs/sweetalert/dist/sweetalert.min.js', charset='utf-8')
     script(type='text/javascript', src='/libs/switchery/dist/switchery.min.js', charset='utf-8')
     script(type='text/javascript', src='/javascripts/settings.js', charset='utf-8')
-
