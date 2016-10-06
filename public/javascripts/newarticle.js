@@ -34,7 +34,7 @@ $(function () {
             appid = '20151219000008011';
             key = translateKey;
             salt = (new Date).getTime();
-            form = 'zh';
+            from = 'zh';
             to = 'en';
             str1 = appid + query + salt + key;
             sign = md5(str1);
@@ -50,11 +50,11 @@ $(function () {
                     to: to,
                     sign: sign
                 },
-                success function (data) {
+                success: function (data) {
                     var en = data.trans_result[0].dst;
                     var result = en.trim().toLowerCase().split(' ').join('-');
                     $("#Alias").val(result).focus();
-                    $("#postForm").formValidation('revalidateField', 'Alias');
+                    $('#postForm').formValidation('revalidateField', 'Alias');
                 },
                 complete: function () {
                     $(that).removeClass("disabled");
@@ -72,123 +72,123 @@ $(function () {
             }
         });
     }).formValidation({
-        framework: 'bootstrap',
-        icon: {
-            valid: 'fa fa-check',
-            invalid: 'fa fa-remove',
-            validating: 'fa fa-refresh'
-        },
-        err: {
-            container: 'tooltip'
-        },
-        fields: {
-            Title: {
-                validators: {
-                    notEmpty: {
-                        message: '标题不能为空'
-                    }
-                }
+            framework: 'bootstrap',
+            icon: {
+                valid: 'fa fa-check',
+                invalid: 'fa fa-remove',
+                validating: 'fa fa-refresh'
             },
-            Alias: {
-                validators: {
-                    notEmpty: {
-                        message: 'Alias不能为空'
-                    },
-                    remote: {
-                        url: '/admin/checkArticleAlias',
-                        type: 'POST',
-                        data: '{"uid":"' + $('#UniqueId').val() + '"}',
-                        delay: 1000,
-                        message: 'Alias不唯一'
-                    }
-                }
+            err: {
+                container: 'tooltip'
             },
-            Summary: {
-                validators: {
-                    notEmpty: {
-                        message: '摘要不能为空'
+            fields: {
+                Title: {
+                    validators: {
+                        notEmpty: {
+                            message: '标题不能为空'
+                        }
                     }
-                }
-            },
-            Url: {
-                validators: {
-                    notEmpty: {
-                        message: 'Url不能为空'
-                    },
-                    uri: {
-                        message: 'Url地址不正确'
+                },
+                Alias: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Alias不能为空'
+                        },
+                        remote: {
+                            url: '/admin/checkArticleAlias',
+                            type: 'POST',
+                            data: '{"uid":"' + $('#UniqueId').val() + '"}',
+                            delay: 1000,
+                            message: 'Alias不唯一'
+                        }
+                    }
+                },
+                Summary: {
+                    validators: {
+                        notEmpty: {
+                            message: '摘要不能为空'
+                        }
+                    }
+                },
+                Url: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Url不能为空'
+                        },
+                        uri: {
+                            message: 'Url地址不正确'
+                        }
                     }
                 }
             }
-        }
-    })
-    .on('err.field.fv', function (e, data) {
-        data.fv.disableSubmitButtons(false);
-    })
-    .on('success.field.fv', function (e, data) {
-        data.fv.disableSubmitButtons(false);
-    })
-    .on('success.form.fv', function (e) {
-        e.preventDefault();
-        $("#Labels").val(JSON.stringify($("#myPillbox").pillbox("items")));
-        $("#IsDraft").val('False');
-        swal({
-            title: "确定要发布该文章吗?",
-            text: $("#CategoryId").val() === "other" ? "<span style='color:#d9534f;'>注意:当前选择的文章分类为\"未分类\"</span>" : null,
-            html: true,
-            type: "warning",
-            allowOutsideClick: true,
-            showCancelButton: true,
-            cancelButtonText: "取消",
-            confirmButtonColor: "#d9534f",
-            confirmButtonText: "确定发布",
-            closeOnConfirm: false
-        },
-        function () {
-            $(".sweet-alert .confirm").text("发布中...");
-            $(".sweet-alert .confirm").attr("disabled", "disabled");
-            $.ajax({
-                url: $("#postForm")[0].action,
-                type: $("#postForm")[0].method,
-                data: $("$postForm").serialize(),
-                success: function () {
-                    swal({
-                        title: "发布成功!",
-                        type: "success",
-                        showConfirmButton: false,
-                        timer: 2000
-                    }, function () {
-                        window.location.href = "/admin/articlemanage";
-                    });
+        })
+        .on('err.field.fv', function (e, data) {
+            data.fv.disableSubmitButtons(false);
+        })
+        .on('success.field.fv', function (e, data) {
+            data.fv.disableSubmitButtons(false);
+        })
+        .on('success.form.fv', function (e) {
+            e.preventDefault();
+            $("#Labels").val(JSON.stringify($("#myPillbox").pillbox("items")));
+            $('#IsDraft').val('False');
+            swal({
+                    title: "确定要发布该文章吗？",
+                    text: $("#CategoryId").val() === "other" ? "<span style='color:#d9534f;'>注意：当前选择的文章分类为\"未分类\"</span>" : null,
+                    html: true,
+                    type: "warning",
+                    allowOutsideClick: true,
+                    showCancelButton: true,
+                    cancelButtonText: "取消",
+                    confirmButtonColor: "#d9534f",
+                    confirmButtonText: "确定发布",
+                    closeOnConfirm: false
                 },
-                error: function () {
-                    swal({
-                        title: "发布失败!",
-                        type: "error",
-                        showConfirmButton: false,
-                        timer: 2000
+                function () {
+                    $(".sweet-alert .confirm").text("发布中...");
+                    $(".sweet-alert .confirm").attr("disabled", "disabled");
+                    $.ajax({
+                        url: $("#postForm")[0].action,
+                        type: $("#postForm")[0].method,
+                        data: $("#postForm").serialize(),
+                        success: function () {
+                            swal({
+                                title: "发布成功！",
+                                type: "success",
+                                showConfirmButton: false,
+                                timer: 2000
+                            }, function () {
+                                window.location.href = "/admin/articlemanage";
+                            });
+                        },
+                        error: function () {
+                            swal({
+                                title: "发布失败！",
+                                type: "error",
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        },
+                        complete: function () {
+                            $(".sweet-alert .confirm").removeAttr("disabled");
+                        }
                     });
-                },
-                complete: function () {
-                    $(".sweet-alert .confirm").removeAttr("disabled");
-                }
-            });
+                });
         });
-    });
 
     $('#btnSave').on('click', function () {
         var $this = $(this);
         $("#Labels").val(JSON.stringify($("#myPillbox").pillbox("items")));
-        $("#IsDraft").val('True');
+        $('#IsDraft').val('True');
         $this.attr('disabled', 'disabled');
         $.ajax({
             url: $("#postForm")[0].action,
             type: $("#postForm")[0].method,
-            data: $("$postForm").serialize(),
+            data: $("#postForm").serialize(),
             success: function () {
                 swal({
-                    title: "草稿保存成功!",
-                    type: "success",
+                    title: '草稿保存成功！',
+                    type: 'success',
                     showConfirmButton: false,
                     timer: 2000
                 }, function () {
@@ -197,7 +197,7 @@ $(function () {
             },
             error: function () {
                 swal({
-                    title: "草稿保存失败!",
+                    title: "草稿保存失败！",
                     type: "error",
                     showConfirmButton: false,
                     timer: 2000

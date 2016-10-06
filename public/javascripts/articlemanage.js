@@ -1,7 +1,3 @@
-/**
- * Created by leo on 04/10/2016.
- */
-
 var $table = $("#articles"),
     $remove = $("#remove"),
     selections = [];
@@ -35,7 +31,7 @@ $(function () {
             refresh: "fa-refresh",
             columns: "fa-th-list"
         },
-        isField: "UniqueId",
+        idField: "UniqueId",
         filterControl: true,
         responseHandler: responseHandler,
         columns: [{
@@ -119,47 +115,49 @@ $(function () {
             events: {
                 "click .remove": function (e, value, row, index) {
                     swal({
-                        title: "确定",
-                        text: "文章标题: " + row.Title,
-                        html: true,
-                        type: "warning",
-                        allowOutsideClick: true,
-                        showCancelButton: true,
-                        cancelButtonText: "取消",
-                        confirmButtonColor: "#d9534f",
-                        confirmButtonText: "确认删除",
-                        closeOnConfirm: false
-                    }, function () {
-                        $(".sweet-alert .confirm").text("提交中...");
-                        $(".sweet-alert .confirm").attr("disabled", "disabled");
-                        deleteArticle(row.UniqueId);
-                    });
+                            title: "确定要删除该文章吗？",
+                            text: "文章标题：" + row.Title,
+                            html: true,
+                            type: "warning",
+                            allowOutsideClick: true,
+                            showCancelButton: true,
+                            cancelButtonText: "取消",
+                            confirmButtonColor: "#d9534f",
+                            confirmButtonText: "确认删除",
+                            closeOnConfirm: false
+                        },
+                        function () {
+                            $(".sweet-alert .confirm").text("提交中...");
+                            $(".sweet-alert .confirm").attr("disabled", "disabled");
+                            deleteArticle(row.UniqueId);
+                        });
                 },
                 "click .undo": function (e, value, row, index) {
                     swal({
-                        title: "确定要恢复该文章吗?",
-                        text: "文章标题: " + row.Title,
-                        html: true,
-                        type: "waring",
-                        allowOutsideClick: true,
-                        showCancelButton: true,
-                        cancelButtonText: "取消",
-                        confirmButtonText: "确认恢复",
-                        closeOnConfirm: false
-                    }, function () {
-                        $(".sweet-alert .confirm").text("提交中...");
-                        $(".sweet-alert .confirm").attr("disabled", "disabled");
-                        undoArticle(row.UniqueId);
-                    });
+                            title: "确定要恢复该文章吗？",
+                            text: "文章标题：" + row.Title,
+                            html: true,
+                            type: "warning",
+                            allowOutsideClick: true,
+                            showCancelButton: true,
+                            cancelButtonText: "取消",
+                            confirmButtonText: "确认恢复",
+                            closeOnConfirm: false
+                        },
+                        function () {
+                            $(".sweet-alert .confirm").text("提交中...");
+                            $(".sweet-alert .confirm").attr("disabled", "disabled");
+                            undoArticle(row.UniqueId);
+                        });
                 }
             },
             formatter: function (value, row) {
                 if (row.IsActive) {
                     return "<a class=\"edit btn btn-white\" title=\"编辑\" href=\"/admin/editarticle/" + row.UniqueId + "\"><i class=\"fa fa-pencil\"></i></a> "
-                        + "<button type=\"button\" class=\"remove btn btn-white\" title=\"删除\"><i class=\"fa fa-trash-o\"></i></button> ";
+                        + "<button type=\"button\" class=\"remove btn btn-white\" title=\"删除\"><i class=\"fa fa-trash-o\"></i></button>";
                 } else {
                     return "<a class=\"edit btn btn-white\" title=\"编辑\" href=\"/admin/editarticle/" + row.UniqueId + "\"><i class=\"fa fa-pencil\"></i></a> "
-                        + "<button type=\"button\" class=\"undo btn btn-white\" title=\"恢复\"><i class=\"fa fa-undo\"></i></i></button> ";
+                        + "<button type=\"button\" class=\"undo btn btn-white\" title=\"恢复\"><i class=\"fa fa-undo\"></i></button>";
                 }
             }
         }]
@@ -168,39 +166,40 @@ $(function () {
     $table.on('check.bs.table check-all.bs.table ' +
         'uncheck.bs.table uncheck-all.bs.table', function (e, rows) {
         var ids = $.map(!$.isArray(rows) ? [rows] : rows, function (row) {
-            if (row.IsActive) {
-                return row.UniqueId;
-            }
-        }),
-        func = $.inArray(e.type, ['check', 'check-all']) > -1 ? 'union' : 'difference';
-    selections = _[func](selections, ids);
-    var selectionLength = selections.length;
-    if (selectionLength > 0) {
-        $remove.find(".badge").html(selectionLength);
-        $remove.find(".badge").show();
-    } else {
-        $remove.find(".badge").html("");
-        $remove.find(".badge").hide();
-    }
+                if (row.IsActive) {
+                    return row.UniqueId;
+                }
+            }),
+            func = $.inArray(e.type, ['check', 'check-all']) > -1 ? 'union' : 'difference';
+        selections = _[func](selections, ids);
+        var selectionLength = selections.length;
+        if (selectionLength > 0) {
+            $remove.find(".badge").html(selectionLength);
+            $remove.find(".badge").show();
+        } else {
+            $remove.find(".badge").html("");
+            $remove.find(".badge").hide();
+        }
         $remove.prop('disabled', !selectionLength);
     });
 
     $remove.click(function () {
         swal({
-            title: "确定要删除这 " + selections.length + " 篇文章吗?",
-            html: true,
-            type: "warning",
-            allowOutsideClick: true,
-            showCancelButton: true,
-            cancelButtonText: "取消",
-            confirmButtonColor: "#d9534f",
-            confirmButtonText: "确认删除",
-            closeOnConfirm: false
-        }, function () {
-            $(".sweet-alert .confirm").text("提交中...");
-            $(".sweet-alert .confirm").attr("disabled", "disabled");
-            deleteArticle(selections.join(","));
-        });
+                title: "确定要删除这 " + selections.length + " 篇文章吗？",
+                html: true,
+                type: "warning",
+                allowOutsideClick: true,
+                showCancelButton: true,
+                cancelButtonText: "取消",
+                confirmButtonColor: "#d9534f",
+                confirmButtonText: "确认删除",
+                closeOnConfirm: false
+            },
+            function () {
+                $(".sweet-alert .confirm").text("提交中...");
+                $(".sweet-alert .confirm").attr("disabled", "disabled");
+                deleteArticle(selections.join(","));
+            });
     });
 });
 
@@ -226,7 +225,7 @@ function deleteArticle(ids) {
     });
 }
 
-function undoArticle(id) {
+function undoArticle(id){
     $.ajax({
         url: "/admin/undoArticle",
         type: "post",

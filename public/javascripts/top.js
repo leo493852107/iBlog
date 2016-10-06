@@ -1,7 +1,3 @@
-/**
- * Created by leo on 30/09/2016.
- */
-
 $(function () {
     var shows = window.tools || [0, 1, 2],
         toggle = $('#ss_toggle'),
@@ -10,7 +6,7 @@ $(function () {
         img;
     if (shows.indexOf(0) >= 0) {
         $('ul.fixed-tool li.share-li').show();
-        $('$ss_toggle').on('click', function () {
+        $('#ss_toggle').on('click', function () {
             if (!$(".qrcontain").is(":hidden")) {
                 $(".qrcontain").hide();
                 $("#qrBtn").removeClass("opened");
@@ -90,7 +86,7 @@ $(function () {
         });
 
         $("#scrollTop a").on("click", function () {
-            $("html, body").animate({scrollTop: 0}, 800);
+            $("html,body").animate({scrollTop: 0}, 800);
         });
     }
 });

@@ -1,7 +1,3 @@
-/**
- * Created by leo on 05/10/2016.
- */
-
 $(function () {
     $("#side-menu>li:eq(6)").addClass("active");
 
@@ -27,7 +23,7 @@ $(function () {
                 },
                 error: function () {
                     swal({
-                        title: "获取失败!",
+                        title: "获取失败！",
                         type: "error",
                         showConfirmButton: false,
                         timer: 2000
@@ -48,7 +44,7 @@ $(function () {
                 },
                 success: function () {
                     swal({
-                        title: "成功清除!",
+                        title: "成功清除！",
                         type: "success",
                         showConfirmButton: false,
                         timer: 2000
@@ -58,7 +54,7 @@ $(function () {
                 },
                 error: function () {
                     swal({
-                        title: "清除失败!",
+                        title: "清除失败！",
                         type: "error",
                         showConfirmButton: false,
                         timer: 2000

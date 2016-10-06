@@ -1,7 +1,3 @@
-/**
- * Created by leo on 02/10/2016.
- */
-
 $(function () {
     $("#side-menu>li:eq(5)").addClass("active");
 
@@ -21,7 +17,7 @@ $(function () {
             data: $('#formAbout').serialize(),
             success: function () {
                 swal({
-                    title: "保存成功!",
+                    title: "保存成功！",
                     type: "success",
                     showConfirmButton: false,
                     timer: 2000
@@ -29,7 +25,7 @@ $(function () {
             },
             error: function () {
                 swal({
-                    title: "保存失败!",
+                    title: "保存失败！",
                     type: "error",
                     showConfirmButton: false,
                     timer: 2000

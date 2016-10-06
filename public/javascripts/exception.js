@@ -1,7 +1,3 @@
-/**
- * Created by leo on 04/10/2016.
- */
-
 var $table = $("#exceptions");
 
 $(function () {
@@ -10,6 +6,7 @@ $(function () {
     $table.bootstrapTable({
         url: "/admin/getExceptions",
         method: "post",
+        pagination: true,
         paginationFirstText: "<i class=\"fa fa-angle-double-left\"></i>",
         paginationPreText: "<i class=\"fa fa-angle-left\"></i>",
         paginationNextText: "<i class=\"fa fa-angle-right\"></i>",
@@ -52,9 +49,11 @@ $(function () {
             valign: "middle"
         }, {
             field: "time",
-            title: "异常信息",
-            halign: "center",
-            valign: "middle"
+            title: "记录时间",
+            align: "center",
+            valign: "middle",
+            width: "200px",
+            sortable: true
         }, {
             field: "level",
             title: "等级",
@@ -63,5 +62,6 @@ $(function () {
             width: "120px",
             sortable: true
         }]
-    });
+    })
+    ;
 });

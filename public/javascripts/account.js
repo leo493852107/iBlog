@@ -1,7 +1,3 @@
-/**
- * Created by leo on 26/09/2016.
- */
-
 $(function () {
     $.supersized({
         slide_interval: 3000,    // Length between transitions
@@ -63,7 +59,7 @@ function verify() {
         data: {UserName: userName, Password: password},
         success: function (data) {
             if (data.valid === true) {
-                return window.location.href = data.returnTo;
+                window.location.href = data.returnTo;
             } else {
                 swal({
                     title: data.message,

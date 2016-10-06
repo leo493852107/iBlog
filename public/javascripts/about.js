@@ -1,7 +1,3 @@
-/**
- * Created by leo on 30/09/2016.
- */
-
 $(function () {
     $(".my-nav-pills li:contains('关于')").addClass("active").siblings().removeClass("active");
 

@@ -1,7 +1,3 @@
-/**
- * Created by leo on 05/10/2016.
- */
-
 var home_loading_timeout = 2000;
 var isLoading = false;
 var timeout = 1000;
@@ -44,7 +40,7 @@ $(function () {
         click: function () {
             var index = $(this).attr("page");
             var pageItem = $("#page" + index);
-            $("html, body").animate({scrollTop: $(pageItem).offset().top - 90}, 1000);
+            $("html,body").animate({scrollTop: $(pageItem).offset().top - 90}, 1000);
         }
     }, "#page-nav a");
 
@@ -100,7 +96,7 @@ $(function () {
     });
 
     $(".post-cover").on("click", function () {
-        closeMoal();
+        closeModal();
     });
 
     $("#btnCloseModal").on("click", function () {
@@ -127,7 +123,7 @@ $(function () {
         }
     });
 
-    $("#Keyword").on("Keypress", function (e) {
+    $("#Keyword").on("keypress", function (e) {
         if (e.which == 13 || e.which == 10) {
             searchPost();
         }
@@ -189,7 +185,7 @@ function closeModal() {
     $("body").removeClass("modal-open");
 }
 
-function resetMoal() {
+function resetModal() {
     $(".post-modal .modal-header h4").empty();
     $(".post-content div").empty();
     $("#label-foot").empty();
@@ -217,41 +213,41 @@ function addPage(index, data) {
                 itemHtml = "<div uid=\""
                     + value.Alias
                     + "\" class=\"blog-item " + ($(".home-loading").length > 0 ? "" : "animated fadeIn") + "\">"
-                    + "     <h4>"
-                    + "         <a title=\""
+                    + "    <h4>"
+                    + "        <a title=\""
                     + value.Title
                     + "\" target=\"_blank\" href=\""
                     + value.Url
                     + "\">"
                     + "<i class=\"fa fa-link\"></i> " + value.Title
-                    + "         <\/a>"
-                    + "     <\/h4>"
-                    + "     <span title=\"文章分类\">"
-                    + "         <i class=\"fa fa-map-signs\">"
-                    + "         <\/i>"
-                    + "         "
+                    + "        <\/a>"
+                    + "    <\/h4>"
+                    + "    <span title=\"文章分类\">"
+                    + "        <i class=\"fa fa-map-signs\">"
+                    + "        <\/i>"
+                    + "        "
                     + "<a href=\"/blog/" + value.CategoryAlias + "\" target=\"_blank\">" + value.CateName + "</a>"
-                    + "     <\/span>"
-                    + "     <span title=\"发布时间\" class=\"margin-left-20\">"
-                    + "         <i class=\"fa fa-clock-o\">"
-                    + "         <\/i>"
-                    + "         "
+                    + "    <\/span>"
+                    + "    <span title=\"发布时间\" class=\"margin-left-20\">"
+                    + "        <i class=\"fa fa-clock-o\">"
+                    + "        <\/i>"
+                    + "        "
                     + value.PublishDate
-                    + "     <\/span>"
-                    + "     <a title=\""
+                    + "    <\/span>"
+                    + "    <a title=\""
                     + value.Host
                     + "\" target=\"_blank\" href=\""
                     + value.Url.substring(0, value.Url.indexOf("://") + 3) + value.Host
                     + "\" class=\"pull-right margin-left-20 hidden-xs\">"
-                    + "         "
+                    + "        "
                     + "<i class=\"fa fa-globe\"></i> " + value.Host
-                    + "     <\/a>"
-                    + "     <div class=\"clearfix\">"
-                    + "     <\/div>"
-                    + "     <p>"
-                    + "         "
+                    + "    <\/a>"
+                    + "    <div class=\"clearfix\">"
+                    + "    <\/div>"
+                    + "    <p>"
+                    + "        "
                     + encodeHtml(value.Summary)
-                    + "     <\/p>"
+                    + "    <\/p>"
                     + "<\/div>"
                     + "<div class=\"hr-line-dashed\"></div>";
             } else {
@@ -260,10 +256,10 @@ function addPage(index, data) {
             }
             $("#page" + index).append(itemHtml);
         });
-        $("body").append("<script id=\"cy_cmt_num\" src=\"http://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cysD9LPG8\"><\/script>");
+        $("body").append("<script id=\"cy_cmt_num\" src=\"http://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cyrUoGjWj\"><\/script>");
         var item = $("<li><a href=\"javascript:void(0)\" page=\"" + index + "\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"第" + index + "页\"></a></li>");
         item.appendTo($("#page-nav"));
-        var percent = 100 /index;
+        var percent = 100 / index;
         $("#page-nav li").css("height", percent + "%");
         $("[data-toggle='tooltip']:visible").tooltip({
             container: "body"

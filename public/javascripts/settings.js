@@ -1,7 +1,3 @@
-/**
- * Created by leo on 02/10/2016.
- */
-
 $(function () {
     $("#side-menu>li:eq(8)").addClass("active");
 
@@ -20,7 +16,7 @@ $(function () {
         url: "/admin/uploadimg",
         dataType: "text",
         done: function (e, data) {
-            if (data.result) {
+            if(data.result){
                 var path = '/images/' + JSON.parse(data.result).files[0].name;
                 $(this).prev("img").attr("src", path);
                 $(this).next(":hidden").val(path);
@@ -37,7 +33,7 @@ $(function () {
             data: $("#postForm").serialize(),
             success: function () {
                 swal({
-                    title: '保存成功!',
+                    title: '保存成功！',
                     type: 'success',
                     showConfirmButton: false,
                     timer: 2000
@@ -45,8 +41,8 @@ $(function () {
             },
             error: function () {
                 swal({
-                    title: '保存失败!',
-                    type: 'error',
+                    title: "保存失败！",
+                    type: "error",
                     showConfirmButton: false,
                     timer: 2000
                 });
