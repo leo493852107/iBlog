@@ -3,7 +3,7 @@ block content
     .container-fluid.detail-container
         .row
             .col-lg-4.col-lg-offset-4
-                .about-block.animated.fadeindown
+                .about-block.animated.fadeInDown
                     .widget-head-color-box.navy-bg.p-lg.text-center
                         .m-b-md
                             h2.font-bold.no-margins!=about.FirstLine
@@ -39,6 +39,6 @@ block content
             summary: "",
             title: "#{settings.SiteName + ' - 关于'}"
         };
-    script(type='text/javascript' src='http://v3.jiathis.com/code/jia.js?uid=#{settings.JiaThisId}', charset='utf-8')
-    script(type='text/javascript' src='/libs/jquery-qrcode/dist/jquery.qrcode.min.js', charset='utf-8')
-    script(type='text/javascript' src='/javascripts/top.js', charset='utf-8')
+    script(type='text/javascript', src='http://v3.jiathis.com/code/jia.js?uid=#{settings.JiaThisId}', charset='utf-8')
+    script(type='text/javascript', src='/libs/jquery-qrcode/dist/jquery.qrcode.min.js', charset='utf-8')
+    script(type='text/javascript', src='/javascripts/top.js', charset='utf-8')

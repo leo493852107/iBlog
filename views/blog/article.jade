@@ -14,7 +14,7 @@ block content
                             span(title='#{__("blog.article.category")}')
                                 i.fa.fa-map-signs
                                 =' '
-                                a.black-link(href='/blog/' + post.CategoryAlias, target='_blank')=post.CateName
+                                a.black-link(href='/blog/' + post.CategoryAlias,target='_blank')=post.CateName
                         .text-muted.pull-right
                             each label in post.LabelList
                                 span.post-label(title=label)=label
@@ -28,7 +28,7 @@ block content
                     #main-context
                         blockquote
                             h2 #{__("blog.article.brief")}
-                            span=': ' + post.Summary
+                            span='：' + post.Summary
                         !=post.Content
                     if(settings.ShowComments === 'true')
                         hr.hr-article
@@ -70,7 +70,7 @@ block content
                                 }
                             })();
                 #control-wrap.col-md-3.hidden-sm.hidden-xs(style='#{settings.ExpandMenu === "true" ? "display: block;" : "display: none;"}')
-                    a.close.menu(title='#{__("blog.article.hide")}')
+                    a.close-menu(title='#{__("blog.article.hide")}')
                         i.fa.fa-times
             include ../shared/footer
     include ../shared/top
@@ -90,6 +90,5 @@ block content
             title: "#{post.Title}"
         };
     script(type = 'text/javascript', src = 'http://v3.jiathis.com/code/jia.js?uid=#{settings.JiaThisId}', charset = 'utf-8')
-    script(type = 'text/javascript', src = '/libs/jquery-qrcode/dist/jquery.qrcode.min.js', charset = 'utf-8')
+    script(type='text/javascript', src='/libs/jquery-qrcode/dist/jquery.qrcode.min.js', charset='utf-8')
     script(type = 'text/javascript', src = '/javascripts/top.js', charset = 'utf-8')
-

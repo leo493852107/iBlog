@@ -28,9 +28,9 @@ block content
                             .row.top-bar
                                 form#filterForm(action='/blog/getPosts', method='Post')
                                     .col-md-7.col-sm-4.hidden-xs.list-top-left
-                                        a.current(title='#{__("blog.index.sort_date")}', sort='date') #{__("blog.index.date")}
+                                        a.current(title='#{__("blog.index.sort_date")}',sort='date') #{__("blog.index.date")}
                                         = ' '
-                                        a(title='#{__("blog.index.sort_title")}', sort='title') #{__("blog.index.title")}
+                                        a(title='#{__("blog.index.sort_title")}',sort='title') #{__("blog.index.title")}
                                         input#CateAlias.hidden(type='text', value=currentCate, name='CateAlias')
                                         input#SortBy.hidden(type='text', value=0, name='SortBy')
                                         input#PageIndex.hidden(type='text', value=1, name='PageIndex')
@@ -52,8 +52,8 @@ block content
                                                             a(href='#') #{__("blog.index.tag")}
                                                         li(data-value='3')
                                                             a(href='#') #{__("blog.index.date")}
-                                                    input#FilterType.hidden.hidden-field(type='text', readonly='readonly', aria_hidden='true', name='FilterType')
-                                            input#Keyword.form-control(type='text', placeholder='#{__("blog.index.category")}', name='Keyword')
+                                                    input#FilterType.hidden.hidden-field(type='text',readonly = "readonly", aria_hidden = "true",name='FilterType')
+                                            input#Keyword.form-control(type='text',placeholder = '#{__("blog.index.category")}',name='Keyword')
                                             .input-group-btn
                                                 button#btnFilter.btn.btn-white(type='button')
                                                     i.fa.fa-search
@@ -75,7 +75,7 @@ block content
         .modal-header
             h4
         .modal-body
-            .sk-cube-grid(style='display: none;')
+            .sk-cube-grid(style='display:none;')
                 .sk-cube.sk-cube1
                 .sk-cube.sk-cube2
                 .sk-cube.sk-cube3
@@ -93,7 +93,7 @@ block content
                 button#btnCloseModal.btn.btn-white(type='button') #{__("blog.index.close")}
                 a#btnFullMode.btn.btn-green(href='', target='_blank')
                     i.fa.fa-external-link
-                    |   #{__("blog.index.full_mode")}
+                    |  #{__("blog.index.full_mode")}
     include ../shared/top
     script(type='text/javascript', src='/libs/jquery/dist/jquery.min.js', charset='utf-8')
     script(type='text/javascript', src='/libs/bootstrap/dist/js/bootstrap.min.js', charset='utf-8')
