@@ -1,8 +1,6 @@
-/**
- * Created by leo on 02/10/2016.
- */
-
+// Custom scripts
 $(document).ready(function () {
+
     // MetsiMenu
     $('#side-menu').metisMenu();
 
@@ -44,22 +42,22 @@ $(document).ready(function () {
     $('.navbar-minimalize').click(function () {
         $("body").toggleClass("mini-navbar");
         SmoothlyMenu();
-    });
+    })
 
     // tooltips
     $('.tooltip-demo').tooltip({
         selector: "[data-toggle=tooltip]",
         container: "body"
-    });
+    })
 
     // Move modal to body
     // Fix Bootstrap backdrop issu with animation.css
-    $('.modal').appendTo("body");
+    $('.modal').appendTo("body")
 
     // Full height of sidebar
     function fix_height() {
         var heightWithoutNavbar = $("body > #wrapper").height() - 61;
-        $(".sidebard-panel").css("min-height", heightWithoutNavbar + 'px');
+        $(".sidebard-panel").css("min-height", heightWithoutNavbar + "px");
     }
 
     fix_height();
@@ -79,7 +77,7 @@ $(document).ready(function () {
         if (!$("body").hasClass('body-small')) {
             fix_height();
         }
-    });
+    })
 
     $("[data-toggle=popover]")
         .popover();
@@ -100,23 +98,22 @@ function animationHover(element, animation) {
             element.addClass('animated ' + animation);
         },
         function () {
-            // wait for animation to finish before removing classes
+            //wait for animation to finish before removing classes
             window.setTimeout(function () {
                 element.removeClass('animated ' + animation);
             }, 2000);
-        }
-    );
+        });
 };
 
 // Minimalize menu when screen is less than 768px
 $(function () {
     $(window).bind("load resize", function () {
         if ($(this).width() < 769) {
-            $('body').addClass('body-small');
+            $('body').addClass('body-small')
         } else {
-            $('body').removeClass('body-small');
+            $('body').removeClass('body-small')
         }
-    });
+    })
 });
 
 function SmoothlyMenu() {

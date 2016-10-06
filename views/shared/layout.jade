@@ -4,12 +4,12 @@ html(lang='zh-CN')
         meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
         meta(charset='utf-8')
         meta(name='viewport', content='width=device-width, initial-scale=1.0')
-        meta(name='keywords', content='#{keywords ? keywords : "blog,iBlog"}')
-        meta(name='description', content='#{description ? description : "iBlog"}')
+        meta(name='keywords',content='#{keywords ? keywords : "blog,iBlog"}')
+        meta(name='description',content='#{description ? description : "iBlog"}')
         link(href='/libs/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
         link(href='/stylesheets/bootstrap-addon.css', rel='stylesheet')
         link(href='/stylesheets/site.css', rel='stylesheet')
-        link(href='/libs/font-awesome/css/font-awesome.min.css' rel='stylesheet')
+        link(href='/libs/font-awesome/css/font-awesome.min.css', rel='stylesheet')
         link(href='/stylesheets/share.css', rel='stylesheet')
         link(href='/stylesheets/animate-custom.css', rel='stylesheet')
         title=title
@@ -43,28 +43,28 @@ html(lang='zh-CN')
                         li
                             a(href='/blog')
                                 i.fa.fa-file-text-o.fa-fw
-                                | #{__("layout.blog")}
+                                |  #{__("layout.blog")}
                         if(settings.ShowGuestbook === 'true')
                             li
                                 a(href='/guestbook')
                                     i.fa.fa-edit.fa-fw
-                                    | #{__("layout.message")}
+                                    |  #{__("layout.message")}
                         li
                             a(href='/about')
                                 i.fa.fa-user.fa-fw
-                                | #{__("layout.about")}
+                                |  #{__("layout.about")}
                         li
                             a(href='/locale/#{__("lang-code")}')
                                 i.fa.fa-language.fa-fw
-                                | #{__("language")}
+                                |  #{__("language")}
         block content
-            if(settings.EnableStatistics === 'true')
-                //百度统计代码
-                script.
-                    var _hmt = _hmt || [];
-                    (function () {
-                        var hm = document.createElement("script");
-                        hm.src = "//hm.baidu.com/hm.js?#{settings.StatisticsId}";
-                        var s = document.getElementsByTagName("script")[0];
-                        s.parentNode.insertBefore(hm, s);
-                    })();
+        if(settings.EnableStatistics === 'true')
+            //百度统计代码
+            script.
+                var _hmt = _hmt || [];
+                (function () {
+                    var hm = document.createElement("script");
+                    hm.src = "//hm.baidu.com/hm.js?#{settings.StatisticsId}";
+                    var s = document.getElementsByTagName("script")[0];
+                    s.parentNode.insertBefore(hm, s);
+                })();
