@@ -1,32 +1,27 @@
-/**
- * Created by leo on 26/09/2016.
- */
-
 var express = require('express');
 var router = express.Router();
 var tool = require('../utility/tool');
 var path = require('path');
 var passport = require('passport');
-var Strategy = require('passport-local');
+var Strategy = require('passport-local').Strategy;
 var logger = require('../utility/logger');
 
 passport.use(new Strategy(
     {
-        usernameField: 'UserName', //页面上的用户名字段的name属性值
-        passwordField: 'Password' //页面上的密码字段的name属性值
+        usernameField: 'UserName',//页面上的用户名字段的name属性值
+        passwordField: 'Password'//页面上的密码字段的name属性值
     },
     function (username, password, cb) {
         var account = require('../config/account');
-        // 自己判断用户是否有效
+        //自己判断用户是否有效
         if (username === account.UserName && password === account.Password) {
-            // 验证通过
+            //验证通过
             return cb(null, account);
         } else {
-            // 验证失败
+            //验证失败
             return cb(null, false);
         }
-    }
-));
+    }));
 
 passport.serializeUser(function (user, cb) {
     cb(null, user.Id);
@@ -41,7 +36,7 @@ passport.deserializeUser(function (id, cb) {
     }
 });
 
-// 后台登录页面
+//后台登录页面
 router.get('/login', function (req, res, next) {
     tool.getConfig(path.join(__dirname, '../config/settings.json'), function (err, settings) {
         if (err) {
@@ -66,13 +61,13 @@ router.post('/login', function (req, res, next) {
                 valid: false
             });
         } else {
-            // 登录操作
+            //登录操作
             req.logIn(user, function (err) {
                 var returnTo = '/admin';
                 if (err) {
                     next(err);
                 } else {
-                    // 尝试跳转之前的页面
+                    //尝试跳转之前的页面
                     if (req.session.returnTo) {
                         returnTo = req.session.returnTo;
                     }
@@ -86,10 +81,11 @@ router.post('/login', function (req, res, next) {
     })(req, res, next);
 });
 
-// 退出登录
-router.post('/logout', function (req, res) {
-    req.logout();
-    res.redirect('/login');
-});
+//退出登录
+router.post('/logout',
+    function (req, res) {
+        req.logout();
+        res.redirect('/login');
+    });
 
 module.exports = router;

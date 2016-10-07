@@ -1,7 +1,3 @@
-/**
- * Created by leo on 26/09/2016.
- */
-
 var redis = require('redis');
 var config = require('../config');
 // use custom redis url or localhost

@@ -1,7 +1,3 @@
-/**
- * Created by leo on 01/10/2016.
- */
-
 var express = require('express');
 var router = express.Router();
 var path = require('path');
@@ -9,19 +5,20 @@ var fs = require('fs');
 var async = require('async');
 var upload = require('jquery-file-upload-middleware');
 var post = require('../proxy/post');
+var category = require('../proxy/category');
 var log = require('../proxy/log');
 var tool = require('../utility/tool');
 var moment = require('moment');
 var shortid = require('shortid');
-var redisClent = require('../utility/redisClient');
+var redisClient = require('../utility/redisClient');
 
-// 上传配置
+//上传配置
 upload.configure({
     uploadDir: path.join(__dirname, '../public/images/'),
     uploadUrl: '/images'
 });
 
-// 网站统计页面
+//网站统计页面
 router.get('/', function (req, res, next) {
     tool.getConfig(path.join(__dirname, '../config/settings.json'), function (err, settings) {
         if (err) {
@@ -35,7 +32,7 @@ router.get('/', function (req, res, next) {
     });
 });
 
-// 分类管理页面
+//分类管理页面
 router.get('/categorymanage', function (req, res, next) {
     tool.getConfig(path.join(__dirname, '../config/settings.json'), function (err, settings) {
         if (err) {
@@ -49,7 +46,7 @@ router.get('/categorymanage', function (req, res, next) {
     });
 });
 
-// 获取分类数据，不含所有和未分类，不走缓存
+//获取分类数据，不含所有和未分类，不走缓存
 router.post('/getCategories', function (req, res, next) {
     category.getAll(false, false, function (err, data) {
         if (err) {
@@ -60,7 +57,7 @@ router.post('/getCategories', function (req, res, next) {
     });
 });
 
-// 保存分类数据
+//保存分类数据
 router.post('/saveCategories', function (req, res, next) {
     var jsonArray = JSON.parse(req.body.json.substr(1, req.body.json.length - 2));
     category.save(jsonArray, function (err) {
@@ -72,7 +69,7 @@ router.post('/saveCategories', function (req, res, next) {
     });
 });
 
-// 文章管理页面
+//文章管理页面
 router.get('/articlemanage', function (req, res, next) {
     tool.getConfig(path.join(__dirname, '../config/settings.json'), function (err, settings) {
         if (err) {
@@ -86,7 +83,7 @@ router.get('/articlemanage', function (req, res, next) {
     });
 });
 
-// 获取分类数据，包含所有和未分类，不走缓存
+//获取分类数据，包含所有和未分类，不走缓存
 router.post('/getCateFilter', function (req, res, next) {
     category.getAll(true, false, function (err, data) {
         if (err) {
@@ -97,7 +94,7 @@ router.post('/getCateFilter', function (req, res, next) {
     });
 });
 
-// 获取文章列表数据
+//获取文章列表数据
 router.post('/getArticles', function (req, res, next) {
     var filter,
         params = {
@@ -114,7 +111,7 @@ router.post('/getArticles', function (req, res, next) {
         params.title = filter.Title;
     }
     async.parallel([
-        // 获取文章列表
+        //获取文章列表
         function (cb) {
             post.getArticles(params, function (err, posts) {
                 if (err) {
@@ -124,8 +121,7 @@ router.post('/getArticles', function (req, res, next) {
                 }
             });
         },
-
-        // 获取文章总数
+        //获取文章总数
         function (cb) {
             post.getArticlesCount(params, function (err, count) {
                 if (err) {
@@ -135,8 +131,7 @@ router.post('/getArticles', function (req, res, next) {
                 }
             });
         },
-
-        // 获取分类
+        //获取分类
         function (cb) {
             category.getAll(true, false, function (err, categories) {
                 if (err) {
@@ -159,7 +154,7 @@ router.post('/getArticles', function (req, res, next) {
         } else {
             posts = results[0];
             count = results[1];
-            categories = result[2];
+            categories = results[2];
             posts.forEach(function (item) {
                 post = {
                     UniqueId: item._id,
@@ -190,7 +185,7 @@ router.post('/getArticles', function (req, res, next) {
     });
 });
 
-// 新的文章页面
+//新的文章页面
 router.get('/newArticle', function (req, res, next) {
     tool.getConfig(path.join(__dirname, '../config/settings.json'), function (err, settings) {
         if (err) {
@@ -205,7 +200,7 @@ router.get('/newArticle', function (req, res, next) {
     });
 });
 
-// 检查文章Alias是否唯一
+//检查文章Alias是否唯一
 router.post('/checkArticleAlias', function (req, res, next) {
     post.checkAlias(req.body.Alias, req.body.uid, function (err, isValid) {
         if (err) {
@@ -215,10 +210,10 @@ router.post('/checkArticleAlias', function (req, res, next) {
                 valid: isValid
             });
         }
-    });
+    })
 });
 
-// 保存文章
+//保存文章
 router.post('/saveArticle', function (req, res, next) {
     var params = {
         UniqueId: req.body.UniqueId,
@@ -238,17 +233,17 @@ router.post('/saveArticle', function (req, res, next) {
         } else {
             res.end();
         }
-    });
+    })
 });
 
-// 修改文章
+//修改文章
 router.get('/editArticle/:id', function (req, res, next) {
     var id = req.params.id;
     if (!id) {
         res.redirect('/admin/articlemanage');
     }
     async.parallel([
-        // 获取分类
+        //获取分类
         function (cb) {
             tool.getConfig(path.join(__dirname, '../config/settings.json'), function (err, settings) {
                 if (err) {
@@ -258,7 +253,7 @@ router.get('/editArticle/:id', function (req, res, next) {
                 }
             });
         },
-        // 根据文章Id获取文章
+        //根据文章Id获取文章
         function (cb) {
             post.getById(id, function (err, article) {
                 if (err) {
@@ -268,7 +263,7 @@ router.get('/editArticle/:id', function (req, res, next) {
                 } else {
                     cb(null, article);
                 }
-            });
+            })
         }
     ], function (err, results) {
         var settings,
@@ -287,7 +282,7 @@ router.get('/editArticle/:id', function (req, res, next) {
     });
 });
 
-// 删除文章
+//删除文章
 router.post('/deleteArticles', function (req, res, next) {
     post.delete(req.body.ids, function (err) {
         if (err) {
@@ -295,10 +290,10 @@ router.post('/deleteArticles', function (req, res, next) {
         } else {
             res.end();
         }
-    });
+    })
 });
 
-// 还原文章
+//还原文章
 router.post('/undoArticle', function (req, res, next) {
     post.undo(req.body.id, function (err) {
         if (err) {
@@ -306,10 +301,10 @@ router.post('/undoArticle', function (req, res, next) {
         } else {
             res.end();
         }
-    });
+    })
 });
 
-// 评论管理页面
+//评论管理页面
 router.get('/comments', function (req, res, next) {
     tool.getConfig(path.join(__dirname, '../config/settings.json'), function (err, settings) {
         if (err) {
@@ -323,7 +318,7 @@ router.get('/comments', function (req, res, next) {
     });
 });
 
-// 留言管理页面
+//留言管理页面
 router.get('/guestbook', function (req, res, next) {
     tool.getConfig(path.join(__dirname, '../config/settings.json'), function (err, settings) {
         if (err) {
@@ -337,10 +332,10 @@ router.get('/guestbook', function (req, res, next) {
     });
 });
 
-// 关于管理页面
+//关于管理页面
 router.get('/aboutmanage', function (req, res, next) {
     async.parallel([
-        // 获取关于数据
+        //获取关于数据
         function (cb) {
             tool.getConfig(path.join(__dirname, '../config/about.json'), function (err, about) {
                 if (err) {
@@ -350,7 +345,7 @@ router.get('/aboutmanage', function (req, res, next) {
                 }
             });
         },
-        // 获取配置
+        //获取配置
         function (cb) {
             tool.getConfig(path.join(__dirname, '../config/settings.json'), function (err, settings) {
                 if (err) {
@@ -377,12 +372,12 @@ router.get('/aboutmanage', function (req, res, next) {
     });
 });
 
-// 上传图片
+//上传图片
 router.post('/uploadimg', function (req, res, next) {
     upload.fileHandler()(req, res, next);
 });
 
-// 保存关于数据
+//保存关于数据
 router.post('/saveAbout', function (req, res, next) {
     tool.setConfig(path.join(__dirname, '../config/about.json'), {
         FirstLine: req.body.FirstLine,
@@ -397,7 +392,7 @@ router.post('/saveAbout', function (req, res, next) {
     res.end();
 });
 
-// 缓存管理页面
+//缓存管理页面
 router.get('/cachemanage', function (req, res, next) {
     tool.getConfig(path.join(__dirname, '../config/settings.json'), function (err, settings) {
         if (err) {
@@ -411,9 +406,9 @@ router.get('/cachemanage', function (req, res, next) {
     });
 });
 
-// 根据缓存key获取缓存
+//根据缓存key获取缓存
 router.post('/getcache', function (req, res, next) {
-    redisClent.getItem(req.body.key, function (err, data) {
+    redisClient.getItem(req.body.key, function (err, data) {
         if (err) {
             next(err);
         } else {
@@ -423,21 +418,21 @@ router.post('/getcache', function (req, res, next) {
                 res.end();
             }
         }
-    });
+    })
 });
 
-// 清除指定key的缓存
+//清除指定key的缓存
 router.post('/clearcache', function (req, res, next) {
-    redisClent.removeItem(req.body.key, function (err) {
+    redisClient.removeItem(req.body.key, function (err) {
         if (err) {
             next(err);
         } else {
             res.end();
         }
-    });
+    })
 });
 
-// 异常管理页面
+//异常管理页面
 router.get('/exception', require('connect-ensure-login').ensureLoggedIn(), function (req, res, next) {
     tool.getConfig(path.join(__dirname, '../config/settings.json'), function (err, settings) {
         if (err) {
@@ -451,7 +446,7 @@ router.get('/exception', require('connect-ensure-login').ensureLoggedIn(), funct
     });
 });
 
-// 获取异常数据
+//获取异常数据
 router.post('/getExceptions', function (req, res, next) {
     var params = {
         pageIndex: req.body.pageNumber,
@@ -460,7 +455,7 @@ router.post('/getExceptions', function (req, res, next) {
         sortOrder: req.body.sortOrder
     };
     async.parallel([
-        // 获取异常列表
+        //获取异常列表
         function (cb) {
             log.getAll(params, function (err, logs) {
                 if (err) {
@@ -470,7 +465,7 @@ router.post('/getExceptions', function (req, res, next) {
                 }
             });
         },
-        // 获取异常数据总数
+        //获取异常数据总数
         function (cb) {
             log.getAllCount(params, function (err, count) {
                 if (err) {
@@ -478,7 +473,7 @@ router.post('/getExceptions', function (req, res, next) {
                 } else {
                     cb(null, count);
                 }
-            });
+            })
         }
     ], function (err, results) {
         var logs,
@@ -505,7 +500,7 @@ router.post('/getExceptions', function (req, res, next) {
     });
 });
 
-// 系统设置页面
+//系统设置页面
 router.get('/settings', function (req, res, next) {
     tool.getConfig(path.join(__dirname, '../config/settings.json'), function (err, settings) {
         if (err) {
@@ -519,7 +514,7 @@ router.get('/settings', function (req, res, next) {
     });
 });
 
-// 保存系统设置
+//保存系统设置
 router.post('/saveSettings', function (req, res, next) {
     tool.setConfig(path.join(__dirname, '../config/settings.json'), {
         SiteName: req.body.SiteName,

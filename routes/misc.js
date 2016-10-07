@@ -1,14 +1,10 @@
-/**
- * Created by leo on 30/09/2016.
- */
-
 var express = require('express');
 var router = express.Router();
 var path = require('path');
 var async = require('async');
 var tool = require('../utility/tool');
 
-// 留言页面
+//留言页面
 router.get('/guestbook', function (req, res, next) {
     tool.getConfig(path.join(__dirname, '../config/settings.json'), function (err, settings) {
         if (err) {
@@ -22,10 +18,10 @@ router.get('/guestbook', function (req, res, next) {
     });
 });
 
-// 关于页面
+//关于页面
 router.get('/about', function (req, res, next) {
     async.parallel([
-        // 获取关于数据
+        //获取关于数据
         function (cb) {
             tool.getConfig(path.join(__dirname, '../config/about.json'), function (err, about) {
                 if (err) {
@@ -35,7 +31,7 @@ router.get('/about', function (req, res, next) {
                 }
             });
         },
-        // 获取配置
+        //获取配置
         function (cb) {
             tool.getConfig(path.join(__dirname, '../config/settings.json'), function (err, settings) {
                 if (err) {

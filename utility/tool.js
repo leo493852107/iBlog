@@ -1,7 +1,3 @@
-/**
- * Created by leo on 25/09/2016.
- */
-
 var fs = require('fs');
 
 /**
@@ -18,9 +14,9 @@ exports.jsonQuery = function (jsonArray, conditions) {
         flag;
     for (; i < len; i++) {
         flag = true;
-        json = jsonArray[i]; // get json key
+        json = jsonArray[i];
         for (condition in conditions) {
-            if (json[condition] != conditions[condition]) {
+            if (json[condition] !== conditions[condition]) {
                 flag = false;
                 break;
             }
@@ -38,20 +34,20 @@ exports.jsonQuery = function (jsonArray, conditions) {
  * @param callback 回调函数
  */
 exports.getConfig = function (filePath, key, callback) {
-    if (typeof key === 'function') {
+    if(typeof key === 'function'){
         callback = key;
         key = undefined;
     }
     fs.readFile(filePath, 'utf8', function (err, file) {
         if (err) {
-            console.log('读取文件%s出错: ' + err, filePath);
+            console.log('读取文件%s出错：' + err, filePath);
             return callback(err);
         }
         var data = JSON.parse(file);
         if (typeof key === 'string') {
             data = data[key];
         }
-        return callback(null ,data);
+        return callback(null, data);
     });
 };
 
@@ -88,14 +84,14 @@ exports.generateKey = function (prefix, obj) {
         key = '';
     for (attr in obj) {
         value = obj[attr];
-        // 形如： _name_Tom
-        key += '_' + attr.toString().toLowerCase() + '_' + value.toString();
+        //形如： _name_Tom
+        key += '_' + attr.toString().toLowerCase() + '_' + value.toString()
     }
     if (prefix) {
-        // 形如：prefix_name_Tom_age_20
+        //形如：prefix_name_Tom_age_20
         key = prefix + key;
     } else {
-        // 形如：name_Tom_age_20
+        //形如：name_Tom_age_20
         key = key.substr(1);
     }
     return key;

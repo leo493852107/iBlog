@@ -1,7 +1,3 @@
-/**
- * Created by leo on 04/10/2016.
- */
-
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
@@ -10,21 +6,21 @@ var tool = require('../utility/tool');
 var multer = require('multer');
 var shortid = require('shortid');
 
-// 图片上传配置
+//图片上传配置
 var storageImg = multer.diskStorage({
     destination: function (req, file, cb) {
         if (req.query.uniqueId) {
             var dirPathParent = path.join(__dirname, '../public/uploads/', req.query.uniqueId),
-                dirPath = path.join(dirPathParent, 'img'); // 不能直接创建dirPath，因为父目录不存在会抛出异常
+                dirPath = path.join(dirPathParent, 'img');//不能直接创建dirPath，因为父目录不存在会抛出异常
             fs.mkdir(dirPathParent, function (err) {
                 if (err && err.code !== 'EEXIST') {
                     cb(err);
                 } else {
                     fs.mkdir(dirPath, function (err) {
                         if (err && err.code !== 'EEXIST') {
-                            cb (err);
+                            cb(err);
                         } else {
-                            cb(null ,dirPath);
+                            cb(null, dirPath);
                         }
                     });
                 }
@@ -34,28 +30,28 @@ var storageImg = multer.diskStorage({
         }
     },
     filename: function (req, file, cb) {
-        var fileName = file.originalname.substring(0, file.originalname.lastIndexOf('.')) + '_' +shortid.generate();
+        var fileName = file.originalname.substring(0, file.originalname.lastIndexOf('.')) + '_' + shortid.generate();
         var ext = file.originalname.substr(file.originalname.lastIndexOf('.'));
         var fullName = fileName + ext;
-        cb(null, fullName);
+        cb(null, fullName)
     }
 });
 
-// 附件上传配置
+//附件上传配置
 var storageFile = multer.diskStorage({
     destination: function (req, file, cb) {
         if (req.query.uniqueId) {
             var dirPathParent = path.join(__dirname, '../public/uploads/', req.query.uniqueId),
-                dirPath = path.join(dirPathParent, 'file'); // 不能直接创建dirPath，因为父目录不存在会抛出异常
+                dirPath = path.join(dirPathParent, 'file');
             fs.mkdir(dirPathParent, function (err) {
                 if (err && err.code !== 'EEXIST') {
                     cb(err);
                 } else {
                     fs.mkdir(dirPath, function (err) {
                         if (err && err.code !== 'EEXIST') {
-                            cb (err);
+                            cb(err);
                         } else {
-                            cb(null ,dirPath);
+                            cb(null, dirPath);
                         }
                     });
                 }
@@ -65,10 +61,10 @@ var storageFile = multer.diskStorage({
         }
     },
     filename: function (req, file, cb) {
-        var fileName = file.originalname.substring(0, file.originalname.lastIndexOf('.')) + '_' +shortid.generate();
+        var fileName = file.originalname.substring(0, file.originalname.lastIndexOf('.')) + '_' + shortid.generate();
         var ext = file.originalname.substr(file.originalname.lastIndexOf('.'));
         var fullName = fileName + ext;
-        cb(null, fullName);
+        cb(null, fullName)
     }
 });
 
@@ -81,7 +77,7 @@ router.get('/', function (req, res, next) {
         files,
         stat;
     switch (req.query.action) {
-        // 获取配置
+        //获取配置
         case 'config':
             tool.getConfig(path.join(__dirname, '../config/ue.json'), function (err, settings) {
                 if (err) {
@@ -91,7 +87,7 @@ router.get('/', function (req, res, next) {
                 }
             });
             break;
-        // 图片管理
+        //图片管理
         case 'listimage':
             rootFiles = fs.readdirSync(rootPath);
             rootFiles.forEach(function (rootFile) {
@@ -119,7 +115,7 @@ router.get('/', function (req, res, next) {
                 size: parseInt(req.query.size)
             });
             break;
-        // 附件管理
+        //附件管理
         case 'listfile':
             rootFiles = fs.readdirSync(rootPath);
             rootFiles.forEach(function (rootFile) {
@@ -132,7 +128,7 @@ router.get('/', function (req, res, next) {
                             total += files.length;
                             files.forEach(function (attachFile) {
                                 list.push({
-                                    url: '/uploads' + rootFile + '/file/' + attachFile
+                                    url: '/uploads/' + rootFile + '/file/' + attachFile
                                 });
                             });
                         }
@@ -153,7 +149,7 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
     var uploadFile;
     switch (req.query.action) {
-        // 上传图片
+        //上传图片
         case 'uploadimage':
             uploadFile = multer({storage: storageImg}).single('upfile');
             uploadFile(req, res, function (err) {
@@ -162,7 +158,7 @@ router.post('/', function (req, res, next) {
                 } else {
                     res.json({
                         state: "SUCCESS",
-                        url: '/uploads/' + req.query.uniqueId + '/img/' + req.file.filename, //此处不能用path.join，因为path会使用'\'分隔符，而url地址必须是'/'分隔符
+                        url: '/uploads/' + req.query.uniqueId + '/img/' + req.file.filename,//此处不能用path.join，因为path会使用'\'分隔符，而url地址必须是'/'分隔符
                         title: req.file.originalname,
                         original: req.file.originalname,
                         error: null
@@ -170,20 +166,20 @@ router.post('/', function (req, res, next) {
                 }
             });
             break;
-        // 上传涂鸦
+        //上传涂鸦
         case 'uploadscrawl':
             var dataBuffer = new Buffer(req.body.upfile, 'base64'),
                 fileName = shortid.generate() + '.png';
             if (req.query.uniqueId) {
-                var dirPathParent = path.join(__dirname + '../public/uploads/' + req.query.uniqueId),
+                var dirPathParent = path.join(__dirname, '../public/uploads/', req.query.uniqueId),
                     dirPath = path.join(dirPathParent, 'img');//不能直接创建dirPath，因为父目录不存在会抛出异常
                 fs.mkdir(dirPathParent, function (err) {
                     if (err && err.code !== 'EEXIST') {
                         next(err);
                     } else {
-                        fs.writeFile(path.join(dirPath, fileName), dataBuffer, function (err) {
-                            if (err) {
-                                next (err);
+                        fs.mkdir(dirPath, function (err) {
+                            if (err && err.code !== 'EEXIST') {
+                                next(err);
                             } else {
                                 fs.writeFile(path.join(dirPath, fileName), dataBuffer, function (err) {
                                     if (err) {
@@ -203,10 +199,10 @@ router.post('/', function (req, res, next) {
                     }
                 });
             } else {
-                next(new Error('参数uniqueId不存在！'))
+                next(new Error('参数uniqueId不存在！'));
             }
             break;
-        // 上传附件
+        //上传附件
         case 'uploadfile':
             uploadFile = multer({storage: storageFile}).single('upfile');
             uploadFile(req, res, function (err) {

@@ -1,7 +1,3 @@
-/**
- * Created by leo on 25/09/2016.
- */
-
 var winston = require('winston');
 var dbPath = require('../config').DbPath;
 // var dbPath =  process.env.MONGOLAB_URI;
@@ -9,7 +5,7 @@ var os = require('os');
 require('winston-mongodb').MongoDB;
 var logger = new (winston.Logger)({
     transports: [
-        new (winston.transports.Console) ({
+        new (winston.transports.Console)({
             json: true,
             colorize: true,
             level: 'error',
@@ -62,7 +58,7 @@ exports.errLogger = function (req, err) {
         route: req.route
     };
     if (!message && obj.code === 404) {
-        message = 'not found "' + req.originalUrl + '"';
+        message = 'not fount "' + req.originalUrl + '"';
     }
     logger.error(message, obj);
 };
