@@ -1,7 +1,3 @@
-/**
- * Created by leo on 30/09/2016.
- */
-
 var logModel = require('../models/log').LogModel;
 
 /**
@@ -22,6 +18,7 @@ exports.getAll = function (params, callback) {
             break;
         default:
             options.sort = params.sortOrder === 'desc' ? '-timestamp' : 'timestamp';
+            break;
     }
     logModel.find({}, {}, options, function (err, logs) {
         if (err) {

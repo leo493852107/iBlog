@@ -1,9 +1,5 @@
-/**
- * Created by leo on 01/10/2016.
- */
-
 var postModel = require('../models/post').PostModel;
-var redistClient = require('../utility/redisClient');
+var redisClient = require('../utility/redisClient');
 var tool = require('../utility/tool');
 
 /**
@@ -63,7 +59,7 @@ function getPostsQuery(params) {
  */
 exports.getPosts = function (params, callback) {
     var cache_key = tool.generateKey('posts', params);
-    redistClient.getItem(cache_key, function (err, posts) {
+    redisClient.getItem(cache_key, function (err, posts) {
         if (err) {
             return callback(err);
         }
@@ -83,11 +79,11 @@ exports.getPosts = function (params, callback) {
                 return callback(err);
             }
             if (posts) {
-                redistClient.setItem(cache_key, posts, redistClient.defaultExpired, function (err) {
+                redisClient.setItem(cache_key, posts, redisClient.defaultExpired, function (err) {
                     if (err) {
                         return callback(err);
                     }
-                });
+                })
             }
             return callback(null, posts);
         });
@@ -101,7 +97,7 @@ exports.getPosts = function (params, callback) {
  */
 exports.getPageCount = function (params, callback) {
     var cache_key = tool.generateKey('posts_count', params);
-    redistClient.getItem(cache_key, function (err, pageCount) {
+    redisClient.getItem(cache_key, function (err, pageCount) {
         if (err) {
             return callback(err);
         }
@@ -114,9 +110,9 @@ exports.getPageCount = function (params, callback) {
                 return callback(err);
             }
             var pageCount = count % params.pageSize === 0 ? parseInt(count / params.pageSize) : parseInt(count / params.pageSize) + 1;
-            redistClient.setItem(cache_key, pageCount, redistClient.defaultExpired, function (err) {
+            redisClient.setItem(cache_key, pageCount, redisClient.defaultExpired, function (err) {
                 if (err) {
-                    callback(err);
+                    return callback(err);
                 }
             });
             return callback(null, pageCount);
@@ -134,7 +130,7 @@ exports.getPostByAlias = function (alias, callback) {
     //此处不需要等待MongoDB的响应，所以不想传一个回调函数，但如果不传回调函数，则必须在调用Query对象上的exec()方法！
     //postModel.update({"Alias": alias}, {"ViewCount": 1}, function () {});
     postModel.update({"Alias": alias}, {"$inc": {"ViewCount": 1}}).exec();
-    redistClient.getItem(cache_key, function (err, article) {
+    redisClient.getItem(cache_key, function (err, article) {
         if (err) {
             return callback(err);
         }
@@ -146,14 +142,14 @@ exports.getPostByAlias = function (alias, callback) {
                 return callback(err);
             }
             if (article) {
-                redistClient.setItem(cache_key, article, redistClient.defaultExpired, function (err) {
+                redisClient.setItem(cache_key, article, redisClient.defaultExpired, function (err) {
                     if (err) {
                         return callback(err);
                     }
                 });
             }
             return callback(null, article);
-        });
+        })
     });
 };
 
@@ -204,7 +200,7 @@ function getArticlesQuery(params) {
                 "$regex": params.searchText,
                 "$options": "gi"
             }
-        }];
+        }]
     }
     return query;
 }
@@ -219,13 +215,13 @@ exports.getArticles = function (params, callback) {
     var size = parseInt(params.pageSize) || 10;
     page = page > 0 ? page : 1;
     var options = {};
-    options.skip = (page - 1) *size;
-    options.limt = size;
+    options.skip = (page - 1) * size;
+    options.limit = size;
     switch (params.sortName) {
-        case "ModifyTime":
+        case 'ModifyTime':
             options.sort = params.sortOrder === 'desc' ? '-ModifyTime -CreateTime' : 'ModifyTime CreateTime';
             break;
-        case "ViewCount":
+        case 'ViewCount':
             options.sort = params.sortOrder === 'desc' ? '-ViewCount -CreateTime' : 'ViewCount CreateTime';
             break;
         default:
@@ -276,7 +272,7 @@ exports.checkAlias = function (alias, articleId, callback) {
                 return callback(null, false);
             }
         }
-    });
+    })
 };
 
 /**
@@ -305,6 +301,7 @@ exports.save = function (params, callback) {
             Alias: params.Alias,
             Summary: params.Summary,
             Source: params.Source,
+            Content: params.Content,
             CategoryId: params.CategoryId,
             Labels: params.Labels,
             Url: params.Url,
@@ -313,11 +310,11 @@ exports.save = function (params, callback) {
             ModifyTime: new Date()
         });
     postModel.findById(_id, function (err, article) {
-        if  (err) {
+        if (err) {
             return callback(err);
         }
         if (!article) {
-            // 新增
+            //新增
             entity._id = _id;
             entity.ViewCount = 0;
             entity.CreateTime = new Date();
@@ -328,7 +325,7 @@ exports.save = function (params, callback) {
                 return callback(null);
             });
         } else {
-            // 更新
+            //更新
             postModel.update({"_id": _id}, entity, function (err) {
                 if (err) {
                     return callback(err);
@@ -336,7 +333,7 @@ exports.save = function (params, callback) {
                 return callback(null);
             });
         }
-    });
+    })
 };
 
 /**
@@ -377,4 +374,3 @@ exports.undo = function (id, callback) {
         return callback(null);
     });
 };
-
