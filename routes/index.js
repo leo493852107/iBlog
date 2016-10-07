@@ -1,7 +1,3 @@
-/**
- * Created by leo on 25/09/2016.
- */
-
 var express = require('express');
 var router = express.Router();
 var path = require('path');
@@ -11,7 +7,7 @@ var tool = require('../utility/tool');
 
 router.get('/', function (req, res, next) {
     async.parallel([
-        // 获取配置
+        //获取配置
         function (cb) {
             tool.getConfig(path.join(__dirname, '../config/settings.json'), function (err, settings) {
                 if (err) {
@@ -21,7 +17,7 @@ router.get('/', function (req, res, next) {
                 }
             });
         },
-        // 获取分类
+        //获取分类
         function (cb) {
             category.getAll(function (err, categories) {
                 if (err) {
@@ -51,4 +47,3 @@ router.get('/', function (req, res, next) {
 });
 
 module.exports = router;
-

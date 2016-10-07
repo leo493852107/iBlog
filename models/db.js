@@ -1,7 +1,3 @@
-/**
- * Created by leo on 29/09/2016.
- */
-
 var dbPath = require('../config').DbPath;
 // var dbPath =  process.env.MONGOLAB_URI;
 var mongoose = require('mongoose');
@@ -16,13 +12,13 @@ db.on('error', function (err) {
 });
 exports.mongoose = mongoose;
 
-// 基础Schema
+//基础Schema
 var base = new mongoose.Schema({
-    // 唯一键
-    _id: { type: String, unique: true},
-    // 创建时间
-    CreateTime: { type: Date },
-    // 修改时间
-    ModifyTime: { type: Date }
+    //唯一键
+    _id: {type: String, unique: true},
+    //创建时间
+    CreateTime: {type: Date},
+    //修改时间
+    ModifyTime: {type: Date}
 });
 exports.base = base;
